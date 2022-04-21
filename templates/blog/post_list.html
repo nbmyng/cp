@@ -1,9 +1,15 @@
 {% extends 'blog/base.html' %}
-
+{% block title %}Blog{% endblock %}
 {% block main-area %}
+
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post" role="button">
+            <i class="fas fa-pen"></i>New Post</a>
+        {% endif %}
+    {% endif %}
     <!-- Post Content Column -->
     {% for post in post_list %}
-
         <!-- Title -->
         <h1 class="mt-4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
