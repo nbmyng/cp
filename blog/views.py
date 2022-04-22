@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post, Category, Tag
 
+
 # Create your views here.
 
 class PostList(ListView):
@@ -16,8 +17,16 @@ class PostList(ListView):
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
         return context
 
+
 class PostDetail(DetailView):
     model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super(PostDetail, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        return context
+
 
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
@@ -34,6 +43,7 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         else:
             return redirect('/blog/')
 
+
 class PostUpdate(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'hook', 'content', 'head_image', 'file_upload', 'category']
@@ -47,7 +57,6 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
             raise PermissionDenied
 
 
-
 def categories_page(request, slug):
     if slug == 'no-category':
         category = '미분류'
@@ -58,7 +67,7 @@ def categories_page(request, slug):
 
     context = {
         'categories': Category.objects.all(),
-        'category_less_post_count': Post.objects.filter(category=None).count(),
+        'no_category_post_count': Post.objects.filter(category=None).count(),
         'category': category,
         'post_list': post_list
     }
@@ -68,6 +77,7 @@ def categories_page(request, slug):
         'blog/post_list.html',
         context
     )
+
 
 def tags_page(request, slug):
     tag = Tag.objects.get(slug=slug)
