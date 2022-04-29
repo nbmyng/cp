@@ -6,6 +6,8 @@
     <h1>Create New Post</h1>
     <hr/>
 
+    {{ request.path }}
+
     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
         <table>
             {{ form | crispy }}
