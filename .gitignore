@@ -2,3 +2,5 @@ venv/
 .git/
 .idea/
 migrations/
+/_media/
+/static/
