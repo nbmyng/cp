@@ -3,4 +3,4 @@ venv/
 .idea/
 migrations/
 /_media/
-/static/
+secrets.json
