@@ -40,9 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'single_pages',
-
     'crispy_forms',
-    'markdownx'
+    'markdownx',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -87,7 +91,7 @@ WSGI_APPLICATION = 'cp_prj.wsgi.application'
 #     }
 # }
 
-LOCAL_SQLITE = 'sqlite://' + os.path.abspath(os.path.join(BASE_DIR, 'db.sqlite3'))
+LOCAL_SQLITE = 'sqlite:///' + os.path.abspath(os.path.join(BASE_DIR, 'db.sqlite3'))
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(default=LOCAL_SQLITE)
 
@@ -139,3 +143,16 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#authentication
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIN_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/blog/'
